@@ -1,0 +1,53 @@
+<!--
+@Author: Dingjia
+@Date:   2018-04-30T22:09:30+08:00
+@Last modified by:   Dingjia
+@Last modified time: 2018-05-01T12:56:44+08:00
+-->
+
+
+
+<template lang="html">
+  <el-dialog
+    :title="title"
+    :visible.sync="dialogVisible"
+    width="520px"
+    :before-close="handleClose">
+    <slot></slot>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="handleClose" size="small">取 消</el-button>
+      <el-button type="primary" @click="handleSubmitDialog" size="small">确 定</el-button>
+    </span>
+  </el-dialog>
+</template>
+
+<script>
+export default {
+  props:{
+    title:{
+      type:String,
+      default:"提示"
+    },
+    dialogVisible:{
+      type:Boolean,
+      default:false
+    }
+  },
+  methods:{
+    handleClose(done) { //关闭弹窗
+      this.$confirm('确认清空编辑内容并关闭？')
+        .then(_ => {
+          console.log(done)
+          this.$emit("on-close-modal")
+        })
+        .catch(_ => {});
+    },
+    handleSubmitDialog() { //保存按钮
+      this.$emit("on-submit-dialog",this.title)
+    }
+  }
+}
+</script>
+
+<style lang="less">
+</style>
