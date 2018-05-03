@@ -20,7 +20,7 @@ export default {
     PHeader
   },
   created() {
-    
+
   },
   methods: {
 
@@ -28,12 +28,15 @@ export default {
 }
 </script>
 <style media="screen" lang="less">
-.el-input--suffix {
-    .el-input__suffix {
-        cursor: pointer;
-        border-left: 1px solid #ccc;
-    }
+.search-wrapper {
+  .el-input--suffix {
+     .el-input__suffix {
+         cursor: pointer;
+         border-left: 1px solid #ccc;
+     }
+ }
 }
+
 </style>
 
 <style lang="less" scoped>

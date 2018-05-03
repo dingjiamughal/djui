@@ -10,7 +10,7 @@
 <template lang="html">
   <div class="table-survey">
     <el-row :gutter="20" class="operate-wrapper">
-    <el-col :md="6">
+    <el-col :md="6" class="search-wrapper">
       <el-input
         size="small"
         placeholder="请输入问卷标题"
