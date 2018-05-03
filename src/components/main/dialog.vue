@@ -11,7 +11,7 @@
   <el-dialog
     :title="title"
     :visible.sync="dialogVisible"
-    width="520px"
+    :width="dialogWidth"
     :before-close="handleClose">
     <slot></slot>
     <span slot="footer" class="dialog-footer">
@@ -31,16 +31,21 @@ export default {
     dialogVisible:{
       type:Boolean,
       default:false
+    },
+    dialogWidth:{
+      type:String,
+      default:"520px"
     }
   },
   methods:{
     handleClose(done) { //关闭弹窗
-      this.$confirm('确认清空编辑内容并关闭？')
-        .then(_ => {
-          console.log(done)
-          this.$emit("on-close-modal")
-        })
-        .catch(_ => {});
+      // this.$confirm('确认清空编辑内容并关闭？')
+      //   .then(_ => {
+      //     console.log(done)
+      //     this.$emit("on-close-modal")
+      //   })
+      //   .catch(_ => {});
+      this.$emit("on-close-modal")
     },
     handleSubmitDialog() { //保存按钮
       this.$emit("on-submit-dialog",this.title)
