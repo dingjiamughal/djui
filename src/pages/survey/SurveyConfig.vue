@@ -2,7 +2,7 @@
 @Author: Dingjia
 @Date:   2018-04-29T15:26:12+08:00
 @Last modified by:   Dingjia
-@Last modified time: 2018-05-01T23:55:20+08:00
+@Last modified time: 2018-05-02T00:02:47+08:00
 -->
 
 
@@ -103,23 +103,7 @@
                       <el-button type="success" icon="el-icon-plus" size="mini" @click="handleAddSelect"></el-button>
                       <el-button type="warning" icon="el-icon-close" size="mini" @click="handleDelSelect(index)"></el-button>
                     </el-col>
-                    <el-col :span="12">
-                      <treeselect size="small"
-                        :multiple="false"
-                        :clearable="false"
-                        :searchable="true"
-                        :options="options"
-                        :show-count="true"
-                        :max-height="200"
-                        v-model="item.tag"
-                        placeholder="请选择标签类别"
-                        @select="handleSelectTag"
-                        />
-                      <pre class="result">{{ item.tag }}</pre>
-                    </el-col>
-                    <el-col :span="12">
 
-                    </el-col>
 
                 </el-form-item>
               </div>
@@ -131,7 +115,18 @@
           @on-submit-dialog="addTag"
           @on-close-modal="handleCloseTagModal">
           <div class="">
-            biaoqian
+            <treeselect size="small"
+              :multiple="false"
+              :clearable="false"
+              :searchable="true"
+              :options="options"
+              :show-count="true"
+              :max-height="200"
+              v-model="item.tag"
+              placeholder="请选择标签类别"
+              @select="handleSelectTag"
+              />
+            <pre class="result">{{ item.tag }}</pre>
           </div>
 </s-dialog>
   </div>
