@@ -6,18 +6,24 @@
     :options="options"
     :show-count="true"
     :max-height="200"
-    v-model="tagVal"
+    v-model="tagValue"
     placeholder="请选择标签类别"
-    @select="handleSelectTag(tagVal)"
+    @select="handleSelectTag(tagValue)"
     />
 </template>
 
 <script>
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Treeselect from '@riophae/vue-treeselect'
+
 export default {
   components:{
     Treeselect,
+  },
+  data() {
+    return {
+      tagValue:this.tagVal
+    }
   },
   props:{
     options:{
@@ -25,13 +31,13 @@ export default {
       default:()=>[]
     },
     tagVal:{
-      type:Array,
-      default:()=>[]
+      type:String,
+      default:""
     }
   },
   methods:{
-    handleSelectTag(tagVal) {
-      this.$emit("on-selectTag",tagVal)
+    handleSelectTag(tagValue) {
+      this.$emit("on-selectTag",tagValue)
     }
   }
 }

@@ -7,5 +7,6 @@
 
 export default {
   questionList:[],
-  
+  tagVal1:'',
+  tagVal2:''
 }

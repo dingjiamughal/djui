@@ -49,7 +49,7 @@
         <el-col :md="2">
           <el-form-item label="背景色">
             <el-color-picker
-              v-model="color5"
+              v-model="colorbg"
               show-alpha
               :predefine="bgColors">
             </el-color-picker>
@@ -59,7 +59,7 @@
         <el-col :md="2">
           <el-form-item label="字体色">
             <el-color-picker
-              v-model="color6"
+              v-model="colorfont"
               show-alpha
               :predefine="fontColors">
             </el-color-picker>
@@ -79,23 +79,23 @@
   <div class="question-list">
     <p class="tip" v-show="!questionList.length">一点东西都没有，赶快点击上方按钮添加题目吧！</p>
     <question-item v-for="(questionItem,index) in questionList"
-                   :key="index"
+                   :key="questionItem.name"
                    :item="questionItem"
                    :index="index"
                    @del-questionItem="handleDelQuestionItem(questionList,index)">
           <ul v-if="questionItem.type == '用户满意度'">
-            <li>
+            <li class="issatisfy-wrapper">
               <el-rate disabled></el-rate>
               <h3>满意的子问题</h3>
               <question-item v-for="(item1,idx1) in dialogRate.children.satisfy.optionList"
-                            :key="idx1"
+                            :key="item1.name"
                             :item="item1"
                             :index="idx1"
                             @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
               </question-item>
               <h3>不满意的子问题</h3>
               <question-item v-for="(item2,idx2) in dialogRate.children.unsatisfy.optionList"
-                            :key="idx2"
+                            :key="item2.name"
                             :item="item2"
                             :index="idx2"
                             @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx2)">
@@ -139,8 +139,7 @@
               </div>
               <div class="limit-wrapper" v-if="dialogSingle.type == '多选'">
                 <el-switch v-model="isLimitMore" inactive-text="最多可选数"></el-switch>
-                <el-input class="limit-input" v-if="isLimitMore" v-model="dialogSingle.limit" size="small"></el-input>
-                <el-input-number size="mini" v-if="isLimitMore" v-model="dialogSingle.limitNum"></el-input-number>
+                <el-input-number size="small" v-if="isLimitMore" v-model="dialogSingle.limitNum" :min="1" :max="dialogSingle.optionList.length"></el-input-number>
               </div>
             </el-form>
           </div>
@@ -164,17 +163,31 @@
               <el-row :gutter="20">
                 <el-col :span="10">
                   <span>标签类别</span>
-                    <s-tree :options="options"
-                            :tag-val="tagVal1"
-                            @on-selectTag="handleSelectTag">
-                    </s-tree>
+                  <treeselect size="small"
+                    :multiple="false"
+                    :clearable="false"
+                    :searchable="true"
+                    :options="options"
+                    :show-count="true"
+                    :max-height="200"
+                    v-model="tagVal1"
+                    placeholder="请选择标签类别"
+                    @select="handleSelectTag"
+                    />
                 </el-col>
                 <el-col :span="10">
                   <span>标签名称</span>
-                  <s-tree :options="options"
-                          :tag-val="tagVal2"
-                          @on-selectTag="handleSelectTag">
-                  </s-tree>
+                  <treeselect size="small"
+                    :multiple="false"
+                    :clearable="false"
+                    :searchable="true"
+                    :options="optionsSecond"
+                    :show-count="true"
+                    :max-height="200"
+                    v-model="tagVal2"
+                    placeholder="请选择标签类别"
+                    @select="handleSelectTagSecond"
+                    />
                 </el-col>
                 <el-col :span="4">
                   <span>&nbsp;</span>
@@ -213,17 +226,31 @@
               <el-row :gutter="20">
                 <el-col :span="10">
                   <span>标签类别</span>
-                  <s-tree :options="options"
-                          :tag-val="tagVal1"
-                          @on-selectTag="handleSelectTag">
-                  </s-tree>
+                  <treeselect size="small"
+                    :multiple="false"
+                    :clearable="false"
+                    :searchable="true"
+                    :options="options"
+                    :show-count="true"
+                    :max-height="200"
+                    v-model="tagVal1"
+                    placeholder="请选择标签类别"
+                    @select="handleSelectTag"
+                    />
                 </el-col>
                 <el-col :span="10">
                   <span>标签名称</span>
-                  <s-tree :options="options"
-                          :tag-val="tagVal2"
-                          @on-selectTag="handleSelectTag">
-                  </s-tree>
+                  <treeselect size="small"
+                    :multiple="false"
+                    :clearable="false"
+                    :searchable="true"
+                    :options="optionsSecond"
+                    :show-count="true"
+                    :max-height="200"
+                    v-model="tagVal2"
+                    placeholder="请选择标签类别"
+                    @select="handleSelectTagSecond"
+                    />
                 </el-col>
                 <el-col :span="4">
                   <span>&nbsp;</span>
@@ -257,7 +284,7 @@
               </el-form-item>
 
             </el-form>
-            <div class="satisfy-wrapper">
+            <div class="issatisfy-wrapper">
               <p>满意子问题</p>
               <div class="type-btns-wrapper" style="text-align:left;">
                 <el-button type="primary" size="small" v-for="btn in questionType_pre" :key="btn" @click="handleQuestionTypeModal(btn,2,true)">{{btn}}</el-button>
@@ -265,13 +292,14 @@
               <div class="question-list">
                 <p class="tip" v-show="!dialogRate.children.satisfy.optionList.length">一点东西都没有，赶快点击上方按钮添加题目吧！</p>
                 <question-item v-for="(item1,idx1) in dialogRate.children.satisfy.optionList"
-                              :key="idx1"
+                              :key="item1.name"
                               :item="item1"
-                              :index="idx1">
+                              :index="idx1"
+                              @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
                 </question-item>
               </div>
             </div>
-            <div class="unsatisfy-wrapper">
+            <div class="issatisfy-wrapper">
               <p>不满意子问题</p>
               <div class="type-btns-wrapper" style="text-align:left;">
                 <el-button type="primary" size="small" v-for="btn in questionType_pre" :key="btn" @click="handleQuestionTypeModal(btn,2,false)">{{btn}}</el-button>
@@ -279,9 +307,10 @@
               <div class="question-list">
                 <p class="tip" v-show="!dialogRate.children.unsatisfy.optionList.length">一点东西都没有，赶快点击上方按钮添加题目吧！</p>
                 <question-item v-for="(item1,idx1) in dialogRate.children.unsatisfy.optionList"
-                              :key="idx1"
+                              :key="item1.name"
                               :item="item1"
-                              :index="idx1">
+                              :index="idx1"
+                              @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx1)">
                 </question-item>
               </div>
             </div>
@@ -294,17 +323,31 @@
           @on-close-modal="handleCloseTagModal">
           <div class="">
             <span>标签类别</span>
-            <s-tree :options="options"
-                    :tag-val="tagVal1"
-                    @on-selectTag="handleSelectTag">
-            </s-tree>
+            <treeselect size="small"
+              :multiple="false"
+              :clearable="false"
+              :searchable="true"
+              :options="options"
+              :show-count="true"
+              :max-height="200"
+              v-model="tagVal1"
+              placeholder="请选择标签类别"
+              @select="handleSelectTag"
+              />
           </div>
           <div class="">
             <span>标签名称</span>
-            <s-tree :options="options"
-                    :tag-val="tagVal2"
-                    @on-selectTag="handleSelectTag">
-            </s-tree>
+            <treeselect size="small"
+              :multiple="false"
+              :clearable="false"
+              :searchable="true"
+              :options="optionsSecond"
+              :show-count="true"
+              :max-height="200"
+              v-model="tagVal2"
+              placeholder="请选择标签类别"
+              @select="handleSelectTagSecond"
+              />
           </div>
 </s-dialog>
   </div>
@@ -313,11 +356,12 @@
 <script>
 import _ from 'lodash'
 import vueCropper from 'vue-cropper'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Treeselect from '@riophae/vue-treeselect'
 import SDialog from '@/components/main/dialog'
 import STree from '@/components/main/tree'
 import questionItem from '@/components/survey/questionListItem'
 import optionItem from "@/components/survey/optionItem"
-
 import {
   mapState
 } from "vuex"
@@ -332,14 +376,15 @@ const QT = {
   RATE: "添加用户评分",
   TAG: "添加用户标签"
 }
-console.log(_)
+// console.log(_)
 export default {
   components: {
     SDialog,
     vueCropper,
     questionItem,
     optionItem,
-    STree
+    STree,
+    Treeselect
   },
   data() {
     return {
@@ -356,14 +401,14 @@ export default {
       dialogTitle_4: "", //选标签
       addNewItemType: "",
       tagNowIndex: null,
-      isLimitMore:false,//是否限制选项上限
+      isLimitMore: false, //是否限制选项上限
       dialogType: null, //选中的btn评分 or not
       isSatisfy: null, //是否满意
       dialogSingle: { //单选 + 多选
         name: '',
         type: '',
-        isLimit:false,
-        limitNum:0,
+        isLimit: false,
+        limitNum: 0,
         optionList: [{
           name: '',
           tag: null
@@ -374,9 +419,9 @@ export default {
         type: ''
       },
       dialogTags: { //选标签
-        name:'',
-        type:'',
-        tags:[]
+        name: '',
+        type: '',
+        tags: []
       },
       dialogRate: {
         name: '',
@@ -404,8 +449,8 @@ export default {
       },
       pickerOptions2: {},
       value5: '',
-      color5: 'rgba(255, 69, 0, 0.68)',
-      color6: 'rgba(0, 0, 0)',
+      colorfont: 'rgba(255, 69, 0, 0.68)',
+      colorbg: 'rgba(0, 0, 0)',
       bgColors: [
         '#ff4500',
         '#ff8c00',
@@ -466,16 +511,35 @@ export default {
         id: 'c',
         label: 'c',
       }],
-      tagVal1: [],
-      tagVal2: []
+      tagVal1: "a",
+      tagVal2: "a"
     }
   },
   computed: {
-    ...mapState(["userInfo"])
+    // ...mapState(["tagVal1","tagVal2"]),
+    // tagVal1: {
+    //   get() {
+    //       return this.$store.state.tagVal1
+    //   },
+    //   set(newValue){
+    //     this.$store.state.tagVal1 = newValue
+    //   }
+    //
+    // },
+    // tagVal2: {
+    //   get() {
+    //       return this.$store.state.tagVal2
+    //   },
+    //   set(newValue){
+    //     this.$store.state.tagVal2 = newValue
+    //   }
+    //
+    // }
   },
   created() {
     // console.log(this.userInfo)
     // console.log(this.$route)
+    // console.log(this.tagVal1)
   },
   methods: {
     // type:1 第一层
@@ -483,7 +547,13 @@ export default {
 
     //isSatisfy 第二层中btns true满意 false不满意
     handleQuestionTypeModal(btn, type, isSatisfy) { // 点了按钮组  弹层
-      this.renderModal()
+      // console.log(type)
+      if (type == 1) {
+        this.renderModal()
+      }
+      if(type == 2) {
+        this.renderModalSecond()
+      }
       this.dialogType = type
       if (isSatisfy) {
         this.isSatisfy = true
@@ -550,7 +620,7 @@ export default {
       } else {
         index = "unsatisfy"
       }
-      if (this.dialogType == 1) {//第一层
+      if (this.dialogType == 1) { //第一层
         switch (type) {
           case QT.SINGLE:
             this.dialogVisible_1 = false
@@ -641,8 +711,16 @@ export default {
     handleCloseTagModal() {
       this.isShowTagModal = false
     },
-    handleDelQuestionItem(list,index) {
-      list.splice(index,1)
+    handleDelQuestionItem(list, index) {
+      if (list.length > 1) {
+        list.splice(index, 1)
+      } else {
+        this.$message({
+          message: '最后一个啦，不要删除哦',
+          type: 'warning'
+        });
+      }
+
     },
     addTag() { // 选好标签之后 点击保存标签跳到第一层弹窗
       const tagNowIndex = this.tagNowIndex
@@ -674,7 +752,7 @@ export default {
     },
     handleDelSelect(index) {
       let length = this.dialogSingle.optionList.length
-      if(length>1) {
+      if (length > 1) {
         this.dialogSingle.optionList.splice(index, 1)
       } else {
         this.$message({
@@ -685,11 +763,36 @@ export default {
 
     },
     handleSelectTag(node, id) {
-      // console.log(node)
+      this.tagVal1 = node.label
     },
-    renderModal() {
+    handleSelectTagSecond(node, id) {
+      this.tagVal2 = node.label
+    },
+    renderModal() { // 清空4个种类
+        this.renderModalSecond()
+        this.dialogRate = {
+          name: '',
+          type: '',
+          children: {
+            satisfy: {
+              name: '满意的题目',
+              type: '满意',
+              optionList: []
+            },
+            unsatisfy: {
+              name: '不满意的题目',
+              type: '不满意',
+              optionList: []
+            }
+          }
+        }
+    },
+    renderModalSecond() { // 不管满意or不满意，只要初始化前三项
       this.dialogSingle = {
           name: '',
+          type: '',
+          isLimit: false,
+          limitNum: 0,
           optionList: [{
             name: '',
             tag: ''
@@ -699,11 +802,12 @@ export default {
           name: '',
           type: ''
         }
-        this.dialogTags= {
+        this.dialogTags = {
           name: '',
           type: '',
-          tags:[]
+          tags: []
         }
+
     }
 
   },
@@ -729,10 +833,15 @@ export default {
     min-width: 20px;
 }
 .el-switch__label {
-  color:#409EFF;
-  &.is-active {
-      color: #606266;
-  }
+    color: #409EFF;
+    &.is-active {
+        color: #606266;
+    }
+}
+.tag-item {
+    margin: 0 8px 8px 0;
+    min-width: 40px;
+    text-align: center;
 }
 .none-dialog {
     .el-form-item__label {
@@ -740,26 +849,38 @@ export default {
         padding: 0;
     }
 }
+.vue-treeselect {
+    .vue-treeselect__control {
+        display: block;
+        height: 32px;
+    }
+    input {
+        margin-top: 6px;
+    }
+    .vue-treeselect__arrow {
+        position: relative;
+        top: 4px;
+    }
+}
 </style>
 <style lang="less" scoped>
-
 .type-btns-wrapper {
     text-align: center;
 }
 .limit-wrapper {
-  .el-switch {
-    height:32px;
-  }
-  .limit-input {
-    width:100px;
-  }
+    .el-switch {
+        height: 32px;
+    }
+    .limit-input {
+        width: 100px;
+    }
 }
 .question-list {
-  margin-top:20px;
-  .tip {
-    text-align: center;
-    color:#606266;
-  }
+    margin-top: 20px;
+    .tip {
+        text-align: center;
+        color: #606266;
+    }
 }
 .option-wrapper {
     .el-form-item {
@@ -769,12 +890,22 @@ export default {
 .tags-wrapper {
     margin-top: 22px;
 }
-.tag-item {
-    margin: 0 8px 8px 0;
-    min-width: 40px;
-    text-align: center;
-}
+
 .btn-add-tag {
     padding: 9px 7px;
+}
+.issatisfy-wrapper {
+  &>.question-item {
+    &:hover {
+      background: #E1F0FF !important;
+    }
+  }
+
+  h3 {
+    position:relative;
+    top:20px;
+    font-size: 16px;
+    color:#409EFF;
+  }
 }
 </style>

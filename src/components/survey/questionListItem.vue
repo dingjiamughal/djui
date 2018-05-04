@@ -17,13 +17,15 @@
       </div>
     </div>
     <div class="right">
-      <h3>【{{item.type}}】{{item.name}}</h3>
+      <h3>【{{item.type}}】{{item.name}}<span class="limit-tip" v-if="item.type=='多选'">(最多可选数：<span class="num">{{item.limitNum ? item.limitNum : '无限制'}}</span>)</span></h3>
       <div class="content">
         <!-- 单选 -->
         <ul v-if="item.type=='单选'">
           <li v-for="li in item.optionList">
             <el-radio disabled label="禁用">{{li.name}}</el-radio>
+            <el-tag type="success" v-show="li.tag">{{li.tag}}</el-tag>
           </li>
+
         </ul>
         <!-- 多选 -->
         <ul v-if="item.type=='多选'">
@@ -110,6 +112,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.question-list {
+  &>.question-item {
+    padding-right: 60px !important;
+  }
+}
 .question-item:hover .icon-wrapper {
     display: block !important;
 }
@@ -136,7 +143,7 @@ export default {
                 font-weight: 700;
                 font-size: 16px;
                 margin-bottom: 8px;
-
+                line-height: 1.3;
             }
             .icon-wrapper {
                 display: none;
@@ -155,6 +162,13 @@ export default {
             h3 {
                 font-weight: 700;
                 margin-bottom: 8px;
+                .limit-tip {
+                  margin-left: 8px;
+                  .num {
+                    color:#F56C6C;
+                    // font-size: 18px;
+                  }
+                }
             }
             li {
                 margin-bottom: 3px;
@@ -164,5 +178,10 @@ export default {
             }
         }
     }
+}
+.tag-item {
+    margin: 0 8px 8px 0;
+    min-width: 40px;
+    text-align: center;
 }
 </style>
