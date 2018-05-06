@@ -2,7 +2,7 @@
 @Author: Dingjia
 @Date:   2018-05-03T21:01:59+08:00
 @Last modified by:   Dingjia
-@Last modified time: 2018-05-03T23:11:48+08:00
+@Last modified time: 2018-05-04T22:30:10+08:00
 -->
 
 
@@ -23,7 +23,7 @@
         <ul v-if="item.type=='单选'">
           <li v-for="li in item.optionList">
             <el-radio disabled label="禁用">{{li.name}}</el-radio>
-            <el-tag type="success" v-show="li.tag">{{li.tag}}</el-tag>
+            <el-tag type="success" class="tag-item" v-show="li.tag" size="mini">{{li.tag}}</el-tag>
           </li>
 
         </ul>
@@ -31,6 +31,7 @@
         <ul v-if="item.type=='多选'">
           <li v-for="li in item.optionList">
             <el-checkbox disabled label="禁用">{{li.name}}</el-checkbox>
+            <el-tag type="success" class="tag-item" v-show="li.tag" size="mini">{{li.tag}}</el-tag>
           </li>
         </ul>
         <!-- 自由问答（长文本） -->
@@ -180,8 +181,6 @@ export default {
     }
 }
 .tag-item {
-    margin: 0 8px 8px 0;
-    min-width: 40px;
-    text-align: center;
+    margin:0;
 }
 </style>

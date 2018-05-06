@@ -2,7 +2,7 @@
 @Author: Dingjia
 @Date:   2018-04-30T22:09:30+08:00
 @Last modified by:   Dingjia
-@Last modified time: 2018-05-01T12:56:44+08:00
+@Last modified time: 2018-05-04T23:03:42+08:00
 -->
 
 
@@ -12,6 +12,8 @@
     :title="title"
     :visible.sync="dialogVisible"
     :width="dialogWidth"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
     :before-close="handleClose">
     <slot></slot>
     <span slot="footer" class="dialog-footer">
