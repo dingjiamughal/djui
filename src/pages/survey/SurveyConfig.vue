@@ -98,7 +98,7 @@
               </el-option>
             </el-select>
             <el-button type="primary" size="small">
-              <label class="btn" for="uploads">上传图片</label>
+              <label class="btn" for="uploads">上传并裁剪</label>
             </el-button>
           <input type="file" id="uploads"
                              ref='uploadFileInput'
@@ -113,7 +113,7 @@
       <el-row :gutter="20">
         <ul class="el-upload-list el-upload-list--picture">
           <el-col :md="8" v-for="img in picTypes" :key="img.value" v-show="img.img">
-            <li class="el-upload-list__item is-success upload-list-item">
+            <li class="el-upload-list__item is-success upload-list-item" @click="handleShowMask(img.value)">
               <img :src="img.img" class="el-upload-list__item-thumbnail">
               <span class="el-upload-list__item-name">{{img.value}}</span>
             </li>
@@ -133,7 +133,8 @@
                    :key="questionItem.name"
                    :item="questionItem"
                    :index="index"
-                   @del-questionItem="handleDelQuestionItem(questionList,index)">
+                   @del-questionItem="handleDelQuestionItem(questionList,index)"
+                   @edit-questionItem="handleEditQuestionItem(questionList,index)">
           <ul v-if="questionItem.type == '用户满意度' || questionItem.type == '用户评分'">
             <li class="issatisfy-wrapper">
               <el-rate disabled v-if="questionItem.type == '用户评分'"></el-rate>
@@ -145,19 +146,27 @@
                             :key="item1.name"
                             :item="item1"
                             :index="idx1"
-                            @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
+                            @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)"
+                            @edit-questionItem="handleEditQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
               </question-item>
               <h3>不满意的子问题</h3>
               <question-item v-for="(item2,idx2) in dialogRate.children.unsatisfy.optionList"
                             :key="item2.name"
                             :item="item2"
                             :index="idx2"
-                            @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx2)">
+                            @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx2)"
+                            @edit-questionItem="handleEditQuestionItem(dialogRate.children.unsatisfy.optionList,idx2)">
               </question-item>
             </li>
           </ul>
     </question-item>
   </div>
+
+  <!-- aaaaaa -->
+  <!-- <div class="easyui-resizable" style="width:100px;height:100px;border:1px solid #ccc;"
+        data-options="maxWidth:800,maxHeight:600">
+</div>
+<div id="rr" style="width:100px;height:100px;border:1px solid #ccc;"></div> -->
 </div>
 
 
@@ -341,7 +350,8 @@
                               :key="item1.name"
                               :item="item1"
                               :index="idx1"
-                              @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
+                              @del-questionItem="handleDelQuestionItem(dialogRate.children.satisfy.optionList,idx1)"
+                              @edit-questionItem="handleEditQuestionItem(dialogRate.children.satisfy.optionList,idx1)">
                 </question-item>
               </div>
             </div>
@@ -356,7 +366,8 @@
                               :key="item1.name"
                               :item="item1"
                               :index="idx1"
-                              @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx1)">
+                              @del-questionItem="handleDelQuestionItem(dialogRate.children.unsatisfy.optionList,idx1)"
+                              @edit-questionItem="handleEditQuestionItem(dialogRate.children.unsatisfy.optionList,idx1)">
                 </question-item>
               </div>
             </div>
@@ -396,6 +407,7 @@
               />
           </div>
 </s-dialog>
+<s-mask :img="maskImg" v-if="maskImg" @on-mask="handleCloseMask()"></s-mask>
   </div>
 </template>
 
@@ -408,6 +420,10 @@ import SDialog from '@/components/main/dialog'
 import STree from '@/components/main/tree'
 import questionItem from '@/components/survey/questionListItem'
 import optionItem from "@/components/survey/optionItem"
+import SMask from "@/components/main/mask"
+import '@/assets/themes/default/easyui.css'
+import '@/assets/themes/icon.css'
+import '@/assets/jquery.easyui.min.js'
 import {
   mapState
 } from "vuex"
@@ -430,10 +446,12 @@ export default {
     questionItem,
     optionItem,
     STree,
-    Treeselect
+    Treeselect,
+    SMask
   },
   data() {
     return {
+      maskImg: '',
       previews: {},
       cropperOption: {
         img: '',
@@ -453,15 +471,15 @@ export default {
       picTypes: [{
         value: '背景图片',
         label: '背景图片',
-        img:''
+        img: ''
       }, {
         value: 'LOGO',
         label: 'LOGO',
-        img:''
+        img: ''
       }, {
         value: '底部图片',
         label: '底部图片',
-        img:''
+        img: ''
       }],
       isShowTagModal: false,
       questionType: ['单选', '多选', '自由回答(长文本)', '自由回答', '日期', '地区', '用户满意度', '用户评分', '用户标签'],
@@ -980,7 +998,7 @@ export default {
     uploadImg(e, num) {
       //上传图片
       // this.cropperOption.img
-      if(this.picTypeValue == "") {
+      if (this.picTypeValue == "") {
         this.showTip('请先选择上传类型,再进行上传哦')
         return
       }
@@ -1004,7 +1022,7 @@ export default {
           this.cropperOption.img = data
         }
       }
-      if(this.picTypeValue == '背景图片') {
+      if (this.picTypeValue == '背景图片') {
         this.cropperOption.fixed = true
       } else {
         this.cropperOption.fixed = false
@@ -1034,9 +1052,9 @@ export default {
           // test.location.href = data
           // console.log(data)
           // console.log(this.picTypeValue)
-          this.picTypes.forEach( (val,index) => {
-            if(val.value == this.picTypeValue) {
-              this.$set(this.picTypes[index],"img",data)
+          this.picTypes.forEach((val, index) => {
+            if (val.value == this.picTypeValue) {
+              this.$set(this.picTypes[index], "img", data)
             }
           })
 
@@ -1048,6 +1066,12 @@ export default {
       this.cropperOption.img = ''
       this.$refs.uploadFileInput.value = ''
     },
+    handleShowMask(targetImgVal) {
+      this.maskImg = this.picTypes.filter(item => item.value == targetImgVal)[0].img
+    },
+    handleCloseMask() {
+      this.maskImg = ''
+    }
   },
   watch: {
     multiple(newValue) {
@@ -1058,6 +1082,15 @@ export default {
         this.value = this.value[0]
       }
     },
+  },
+  mounted() {
+    // $('#rr').resizable({
+    //   maxWidth: 800,
+    //   maxHeight: 600
+    // });
+    // // $('#rr').resizable('resize',function(){
+    // //   console.log(1)
+    // // })
   }
 }
 </script>
@@ -1165,9 +1198,9 @@ export default {
     }
 }
 .question-wrapper {
-  margin-top:20px;
+    margin-top: 20px;
 }
 .upload-list-item {
-  margin:0;
+    margin: 0;
 }
 </style>

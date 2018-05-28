@@ -28,6 +28,8 @@
       layout="prev, pager, next"
       :total="100">
     </el-pagination>
+    <button @click="showNotify">show Notify</button>
+    <!-- <notification/> -->
   </div>
 </template>
 
@@ -37,10 +39,15 @@ import qs from 'qs'
 import {getSurvey} from "@/util/mockData/surveyData"
 export default {
   components: {
-    ETable
+    ETable,
+
   },
   created() {
     // console.log(getSurvey)
+  },
+  mounted() {
+    // console.log(this.$djNotify)
+
   },
   methods: {
 
@@ -63,6 +70,12 @@ export default {
     },
     handleClickEdit(row) {
       console.log(row)
+    },
+    showNotify() {
+      this.$djnotify({
+        content: 'test $djnotify',
+        btn: 'close'
+      })
     }
   },
   data() {

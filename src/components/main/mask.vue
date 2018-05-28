@@ -9,7 +9,7 @@
 
 <template lang="html">
   <div class="modal-mask">
-    <div class="model-show">
+    <div class="model-show" @click="handleClickMask">
       <img :src="img">
     </div>
   </div>
@@ -21,6 +21,11 @@ export default {
     img: {
       type: String,
       required: true
+    }
+  },
+  methods:{
+    handleClickMask() {
+      this.$emit('on-mask')
     }
   }
 }

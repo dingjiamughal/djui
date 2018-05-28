@@ -12,7 +12,7 @@
     <div class="left">
       <h2>Q{{index+1}}：</h2>
       <div class="icon-wrapper">
-        <i class="el-icon-edit"></i>
+        <i class="el-icon-edit" @click="handleEditQuestionItem(index)"></i>
         <i class="el-icon-delete" @click="handleDelQuestionItem(index)"></i>
       </div>
     </div>
@@ -107,6 +107,9 @@ export default {
   methods:{
     handleDelQuestionItem() {
       this.$emit("del-questionItem")
+    },
+    handleEditQuestionItem() {
+      this.$emit('edit-questionItem')
     }
   }
 }

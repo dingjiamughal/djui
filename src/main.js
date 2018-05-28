@@ -18,9 +18,12 @@ import router from './router'
 import store from "./store"
 import axios from 'axios'
 
+import Notification from "@/components/notification"
+
 Vue.prototype.$http = axios
 
-Vue.use(ElementUI);
+Vue.use(ElementUI)
+Vue.use(Notification)
 
 Vue.config.productionTip = false
 
