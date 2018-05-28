@@ -1,6 +1,4 @@
-# kts
-
-> A Vue.js project
+# v-dj-component
 
 ## Build Setup
 
