@@ -1,5 +1,8 @@
 const path = require('path');
 module.exports = {
+    devServer: {
+        port: 8686
+    },
     // 修改 src 为 examples
     pages: {
         index: {
@@ -18,12 +21,7 @@ module.exports = {
     },
     // 强制内联CSS
     css: {
-        extract: false,
-        loaderOptions: {
-            less: {
-                data: '@import "src/css/utilities/theme.less";'
-            }
-        }
+        extract: false
     },
     // 扩展 webpack 配置，使 packages 加入编译
     chainWebpack: config => {
