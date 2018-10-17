@@ -25,3 +25,8 @@ npm run test:unit
 ```
 npm run test:cypress
 ```
+
+### Publish
+```
+npm run lib
+```
