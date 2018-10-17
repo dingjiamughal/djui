@@ -1,0 +1,12 @@
+# 忽略目录
+examples/
+packages/
+public/
+tests/
+
+# 忽略指定文件
+*.config.js
+.gitignore
+.browserslistrc
+cypress.json
+*.map

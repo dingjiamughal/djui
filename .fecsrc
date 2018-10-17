@@ -1,0 +1,26 @@
+files:
+    - build
+    - config
+    - mockup
+    - src
+    - "*.js"
+eslint:
+    env:
+        es6: true
+        jest: true
+    rules:
+        fecs-valid-jsdoc: -1
+        fecs-no-require: -1
+        # 这个rule有bug，不能用在decorator里，先禁用掉
+        fecs-use-method-definition: -1
+        # fecs会报.vue文件扩展名不正确，待fecs修复，先禁用掉
+        fecs-esnext-ext: -1
+        max-nested-callbacks: -1
+        space-before-function-paren: -1
+        fecs-properties-quote: -1
+        no-undef: -1
+    globals:
+        shallow: true
+        mount: true
+        callAction: true
+        mockAction: true
