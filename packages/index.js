@@ -5,9 +5,12 @@
  */
 
 import SvButton from './Button';
-const components = [
-    SvButton
-];
+import SvBreadcrumb from './Breadcrumb';
+
+const components = {
+    SvButton,
+    SvBreadcrumb
+};
 
 export default {
     // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
@@ -16,13 +19,9 @@ export default {
         //     return;
         // }
 
-        components.map(component => {
-            Vue.component(component.name, component);
+        Object.values(components).forEach(component => {
+            Vue.component(`sv${component.name}`, component);
         });
     },
-    SvButton
+    ...components
 };
-
-// export {
-//     SvButton
-// };

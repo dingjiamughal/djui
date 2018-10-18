@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'svButton',
+    name: 'Button',
     props: {
         type: {
             type: String,
@@ -30,10 +30,11 @@ export default {
             const prefix = 'sv-button';
             return [
                 prefix,
-                `${prefix}-${this.type}`,
                 {
+                    [`${prefix}-${this.type}`]: !!this.type,
                     [`${prefix}-loading`]: !!this.loading,
-                    [`${prefix}-${this.size}`]: !!this.size
+                    [`${prefix}-${this.size}`]: !!this.size,
+                    'disabled': !!this.disabled
                 }
             ];
         }
@@ -43,14 +44,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@btn-w: 74px;
+@btn-h: 36px;
 .sv-button {
     line-height: 1.5;
     font-size: 14px;
-    padding: 0 15px;
+    padding: 0 16px;
     border-radius: 4px;
-    min-width: 74px;
-    height: 32px;
+    min-width: @btn-w;
+    height: @btn-h;
     color: #fff;
     cursor: pointer;
     border: 1px solid #d9d9d9;
@@ -58,10 +60,7 @@ export default {
     transition: all .2s;
     outline: none;
 
-    &:hover {
-        border-color: #1890ff;
-    }
-
+    // type
     &-primary {
         .btn-common(@palette-blue-2);
 
@@ -100,6 +99,23 @@ export default {
         &:hover {
             .btn-common-hover(@palette-green-3);
         }
+    }
+
+    &.disabled {
+        color: rgba(0, 0, 0, 0.3);
+        background: @palette-text-disabled;
+        border: 1px solid @palette-text-disabled;
+        cursor: not-allowed;
+    }
+
+    // size
+    &-lg {
+        min-width: @btn-w + 10px;
+        height: @btn-h + 6px;
+    }
+
+    &-sm {
+        height: @btn-h - 4px;
     }
 }
 </style>

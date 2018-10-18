@@ -1,10 +1,11 @@
 <template lang="pug">
-    div
-        sv-button(type='primary') 我
-        sv-button(type='danger') 丁佳
-        sv-button(type='info') 爱
-        sv-button(type='warning') 王思雯
-        sv-button(type='success') ~
+    div(id="app")
+        sv-button
+            router-link(:to="{name: 'button'}") button
+        sv-button
+            router-link(:to="{name: 'breadcrumb'}") breadcrumb
+
+        router-view
 </template>
 
 <script>
@@ -15,10 +16,13 @@ export default {
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 body,
 html {
     margin: 0;
     padding: 0;
+}
+button {
+    margin-right: 5px;
 }
 </style>

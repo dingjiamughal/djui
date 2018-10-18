@@ -1,6 +1,6 @@
 {
-  "name": "djui-demo",
-  "version": "0.0.8",
+  "name": "seven-ui",
+  "version": "0.0.2",
   "description": "test ui demo",
   "private": false,
   "main": "lib/djuiDemo.umd.min.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lib": "vue-cli-service build --target lib --name djuiDemo --dest lib packages/index.js",
+    "lib": "vue-cli-service build --target lib --name 7ui --dest lib packages/index.js",
     "test:unit": "vue-cli-service test:unit",
     "test:cypress": "vue-cli-service test:e2e"
   },

@@ -8,5 +8,6 @@ tests/
 *.config.js
 .gitignore
 .browserslistrc
+.fecsrc
 cypress.json
 *.map
