@@ -1,5 +1,5 @@
 <template lang="pug">
-    button(:class="btnCls", :disabled="disabled")
+    button(:class="btnCls", :disabled="disabled" @click="handleClick")
         span
             slot
 </template>
@@ -37,6 +37,11 @@ export default {
                     'disabled': !!this.disabled
                 }
             ];
+        }
+    },
+    methods: {
+        handleClick() {
+            this.$emit('click');
         }
     }
 };

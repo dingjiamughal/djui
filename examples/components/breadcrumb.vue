@@ -1,6 +1,5 @@
 <template lang="pug">
     sv-breadcrumb(@goto='go', :items="items")
-        span asdf
 </template>
 
 <script>

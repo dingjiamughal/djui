@@ -1,7 +1,6 @@
 <template lang="pug">
     li.sv-breadcrumb-divider
-        span(v-if="!isExistIcon") {{content}}
-        slot(v-else)
+        span {{content}}
 </template>
 
 <script>
@@ -10,14 +9,7 @@ export default {
         content: {
             type: String,
             default: '/'
-        },
-        isExistIcon: {
-            type: Boolean,
-            default: false
         }
-    },
-    created() {
-        console.log(this)
     }
 };
 

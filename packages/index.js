@@ -6,10 +6,15 @@
 
 import SvButton from './Button';
 import SvBreadcrumb from './Breadcrumb';
+import SvNotify from './Notify';
+import {Row, Col} from './Layout';
 
 const components = {
     SvButton,
-    SvBreadcrumb
+    SvBreadcrumb,
+    SvNotify,
+    Row,
+    Col
 };
 
 export default {
@@ -22,6 +27,8 @@ export default {
         Object.values(components).forEach(component => {
             Vue.component(`sv${component.name}`, component);
         });
+
+        Vue.prototype.$notify = SvNotify;
     },
     ...components
 };

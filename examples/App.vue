@@ -1,17 +1,19 @@
 <template lang="pug">
     div(id="app")
-        sv-button
-            router-link(:to="{name: 'button'}") button
-        sv-button
-            router-link(:to="{name: 'breadcrumb'}") breadcrumb
-
+        sv-button(v-for="route in routes")
+            router-link(:to="{name: route}") {{route}}
         router-view
 </template>
 
 <script>
+import routes from './util/route';
 
 export default {
-
+    data() {
+        return {
+            routes
+        };
+    }
 };
 
 </script>

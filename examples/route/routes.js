@@ -1,12 +1,16 @@
 // import Button from '../components/button';
+import routes from '../util/route';
+
+const routeSet = routes.map(route => initRoute(route));
+
+/* fecs-disable fecs-prefer-spread-element */
 export default [
     // {
     //     name: 'main',
     //     path: '/',
     //     component: Main
     // },
-    initRoute('button'),
-    initRoute('breadcrumb')
+    ...routeSet
 ];
 
 function initRoute(componentName) {

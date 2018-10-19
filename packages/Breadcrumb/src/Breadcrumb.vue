@@ -2,8 +2,7 @@
     ul.sv-breadcrumb
         template(v-for="(item, i) in items")
             breadcrumb-item(:item="item", @link="goto")
-            icon(v-if="i !== items.length - 1" :content="divider" :isExistIcon="isExistIcon")
-                slot
+            icon(v-if="i !== items.length - 1" :content="divider")
 </template>
 
 <script>
@@ -22,9 +21,6 @@ export default {
     computed: {
         divider() {
             return this.icon ? this.icon : '/';
-        },
-        isExistIcon() {
-            return !!!this.icon;
         }
     },
     methods: {
