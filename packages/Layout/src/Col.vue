@@ -6,6 +6,13 @@
 <script>
 export default {
     name: 'Col',
+    props: {
+        sm: [String, Number],
+        md: [String, Number],
+        lg: [String, Number],
+        xs: [String, Number],
+        flex: [String, Number],
+    },
     computed: {
         colCls() {
             return [

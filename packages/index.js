@@ -8,13 +8,15 @@ import SvButton from './Button';
 import SvBreadcrumb from './Breadcrumb';
 import SvNotify from './Notify';
 import {Row, Col} from './Layout';
+import svBacktop from './BackTop';
 
 const components = {
     SvButton,
     SvBreadcrumb,
     SvNotify,
     Row,
-    Col
+    Col,
+    svBacktop
 };
 
 export default {

@@ -1,5 +1,6 @@
 export default [
     'button',
     'breadcrumb',
-    'layout'
+    'layout',
+    'backtop'
 ];
