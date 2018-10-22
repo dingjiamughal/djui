@@ -1,6 +1,7 @@
 import {enumxArray} from '../../util/enumx';
 
 export default enumxArray([
+
     [0, {
         id: 'free',
         label: '免费'
