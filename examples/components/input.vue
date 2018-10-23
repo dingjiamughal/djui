@@ -12,7 +12,9 @@
 
         .textarea
             sv-textarea(
-                v-model="textAreaVal"
+                v-model="textAreaVal",
+                :max=30
+                :error="false"
             )
             sv-button(@click="handleClickTextarea") 点击
 </template>

@@ -1,19 +1,20 @@
 <template lang="pug">
     .sv-textarea-wrapper
-        textarea(
+        textarea.sv-textarea(
             :value="value",
             :readOnly="readOnly",
             :disabled="disabled",
             :placeholder="placeholder",
             :class="inputCls",
             :rows="rows",
-            :cols="cols",
             @input="handleInput"
         )
-        .count-wrapper
-            span 0
+        .count-wrapper(
+            :class="{'sv-textarea-count-error': !!this.error || count > max}"
+        )
+            span {{count}}
             span /
-            span 500
+            span {{max}}
 </template>
 
 <script>
@@ -27,16 +28,43 @@ export default {
             type: Number,
             default: 0
         },
-        cols: {
-            type: Number,
-            default: 100
-        },
         rows: {
             type: Number,
-            default: 10
+            default: 5
+        }
+    },
+    computed: {
+        count() {
+            return this.value.length;
         }
     }
-
 };
 
 </script>
+
+<style lang="less" scoped>
+.sv-textarea {
+    height: auto;
+
+    &-wrapper {
+        position: relative;
+
+        .count-wrapper {
+            position: absolute;
+            bottom: 10px;
+            right: 8px;
+
+            span {
+                font-size: 14px;
+                color: #bbb;
+            }
+        }
+    }
+
+    &-count-error {
+        span {
+            color: @palette-red-1 !important;
+        }
+    }
+}
+</style>
