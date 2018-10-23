@@ -58,7 +58,7 @@ export default {
     border-radius: 4px;
     min-width: @btn-w;
     height: @btn-h;
-    color: #fff;
+    color: #333;
     cursor: pointer;
     border: 1px solid #d9d9d9;
     background: #fff;

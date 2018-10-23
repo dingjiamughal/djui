@@ -1,5 +1,7 @@
 # design
 
+辣眼睛的基础组件库，非传统样式库bootstrap不存在通用样式类。
+
 ## button
 普通button `default` `primary` `success` `warning` `info` `disable`
 
@@ -17,6 +19,6 @@ sv-breadcrumb
 调用方式：this.$notify({...options})
 
 ## layout
-提供栅格服务
+栅格
 - 普通版：float: left
 - flex版

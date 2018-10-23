@@ -1,18 +1,15 @@
 <template lang="pug">
-    .test
-        v-middle(v-model="inputVal", @change="changeInput")
-        button(@click="handleClickVModel") v-model
+    input(:value="inputVal", @input="handleInput", @click="handleClick")
 </template>
+
 <script>
-import VMiddle from './middle';
 export default {
-    components: {
-        VMiddle
+    model: {
+        prop: 'value',
+        event: 'input'
     },
-    data() {
-        return {
-            inputVal: 'asdf123'
-        };
+    props: {
+        value: String
     },
     // computed: {
     //     inputVal: {
@@ -26,11 +23,12 @@ export default {
     //     }
     // },
     methods: {
-        handleClickVModel() {
-            console.log(this.inputVal);
+        // model模式下也需要发送emit
+        handleInput(e) {
+            this.$emit('input', e.target.value);
         },
-        changeInput() {
-            console.log(this.inputVal);
+        handleClick(e) {
+            this.$emit('input', e.target.value);
         }
     }
 };

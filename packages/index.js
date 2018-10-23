@@ -9,6 +9,7 @@ import SvBreadcrumb from './Breadcrumb';
 import SvNotify from './Notify';
 import {Row, Col} from './Layout';
 import svBacktop from './BackTop';
+import svInput from './Input';
 
 const components = {
     SvButton,
@@ -16,7 +17,9 @@ const components = {
     SvNotify,
     Row,
     Col,
-    svBacktop
+    svBacktop,
+    svInput,
+    svTextArea: svInput.TextArea
 };
 
 export default {

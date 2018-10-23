@@ -1,8 +1,14 @@
-// import Button from '../components/button';
+/**
+ * @file routes.js
+ * @author djmughal
+ * @description routes
+ */
+
 import routes from '../config/enum/route';
 import tests from '../config/enum/tests';
-const routeSet = routes.map(route => initRoute(route));
-const testSet = tests.map(route => testRoute(route));
+
+const routeSet = routes.map(route => initRoute(route.id));
+const testSet = tests.map(route => testRoute(route.id));
 
 /* fecs-disable fecs-prefer-spread-element */
 export default [
