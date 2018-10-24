@@ -22,3 +22,14 @@ sv-breadcrumb
 栅格
 - 普通版：float: left
 - flex版
+
+## Input
+input、textarea
+
+## Table
+```js
+// column
+{title: 'ID', prop:'id', ...attrs}
+// row
+{attr1: '1', attr2: '名称1', attr3: '男', ...attrNames, attrR: render(type: slot)}
+```
