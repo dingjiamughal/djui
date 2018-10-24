@@ -10,6 +10,7 @@ import SvNotify from './Notify';
 import {Row, Col} from './Layout';
 import svBacktop from './BackTop';
 import svInput from './Input';
+import svTable from './Table';
 
 const components = {
     SvButton,
@@ -19,7 +20,8 @@ const components = {
     Col,
     svBacktop,
     svInput,
-    svTextArea: svInput.TextArea
+    svTextArea: svInput.TextArea,
+    svTable
 };
 
 export default {

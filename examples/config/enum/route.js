@@ -25,5 +25,9 @@ export default enumxArray([
     [4, {
         id: 'input',
         label: '输入'
+    }],
+    [4, {
+        id: 'table',
+        label: '表格'
     }]
 ]);
