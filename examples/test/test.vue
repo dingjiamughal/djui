@@ -1,8 +1,10 @@
 <template lang="pug">
-    .test
-        v-middle(v-model="inputVal", @change="changeInput")
-        button(@click="handleClickVModel") v-model
+    v-middle(
+        v-model="value",
+        @input="handleInput"
+    )
 </template>
+
 <script>
 import VMiddle from './middle';
 export default {
@@ -11,26 +13,12 @@ export default {
     },
     data() {
         return {
-            inputVal: 'asdf123'
+            value: 'dingjia'
         };
     },
-    // computed: {
-    //     inputVal: {
-    //         set(v) {
-    //             // this.$emit('mutate', v);
-    //             this.$emit('change', v);
-    //         },
-    //         get() {
-    //             return this.value;
-    //         }
-    //     }
-    // },
     methods: {
-        handleClickVModel() {
-            console.log(this.inputVal);
-        },
-        changeInput() {
-            console.log(this.inputVal);
+        handleInput() {
+            console.log(this.value);
         }
     }
 };

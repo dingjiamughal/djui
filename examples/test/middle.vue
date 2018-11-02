@@ -1,31 +1,23 @@
 <template lang="pug">
-    .middle
-        v-input(v-model="inputv", @change="handleChange")
-
+    div
+        v-input(
+            v-bind="$props",
+            v-on="$listeners"
+        )
+        p 123213212332132321321
 </template>
+
 <script>
-import VInput from './v-model';
+import VInput from './props';
 export default {
     components: {
         VInput
     },
-    // model: {
-    //     prop: 'inputv',
-    //     event: 'input'
-    // },
     props: {
-        inputv: String
+        value: String
     },
-    data() {
-        return {
-
-        };
-    },
-    methods: {
-        handleChange(v) {
-            this.$emit('change', v);
-        }
+    created() {
+        console.log(this)
     }
 };
-
 </script>
