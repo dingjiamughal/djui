@@ -1,11 +1,11 @@
 <template lang="pug">
     table.sv-table
-        thead
+        thead.sv-table-thead
             tr
                 td 头1
                 td 头2
                 td 头3
-        tbody
+        tbody.sv-table-tbody
             tr
                 td 内容1.1
                 td 内容1.2

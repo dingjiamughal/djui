@@ -11,6 +11,7 @@ import {Row, Col} from './Layout';
 import svBacktop from './BackTop';
 import svInput from './Input';
 import svTable from './Table';
+import svProgress from './Progress';
 
 const components = {
     SvButton,
@@ -21,7 +22,8 @@ const components = {
     svBacktop,
     svInput,
     svTextArea: svInput.TextArea,
-    svTable
+    svTable,
+    svProgress
 };
 
 export default {

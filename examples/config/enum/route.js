@@ -26,8 +26,12 @@ export default enumxArray([
         id: 'input',
         label: '输入'
     }],
-    [4, {
+    [5, {
         id: 'table',
         label: '表格'
+    }],
+    [6, {
+        id: 'progress',
+        label: '进度条'
     }]
 ]);
